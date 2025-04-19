@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>USB Access Form</title>
+</head>
+<body>
+  <h2>Enter your name, phone number, and drive letter to use the USB</h2>
+  <form id="usbForm">
+    <input type="text" name="name" placeholder="Your name" required><br>
+    <input type="text" name="phone" placeholder="Phone number" required><br>
+
+    <button type="submit">Submit</button>
+  </form>
+  <p id="status"></p>
+
+  <script>
+    document.getElementById('usbForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const body = new URLSearchParams(formData);
+
+      const res = await fetch('/submit', {
+        method: 'POST',
+        body
+      });
+
+      if (res.ok) {
+        document.getElementById('status').innerText = 'Access granted.';
+      } else {
+        document.getElementById('status').innerText = 'Submission failed.';
+      }
+    };
+  </script>
+</body>
+</html>
